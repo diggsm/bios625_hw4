@@ -4,6 +4,7 @@
 #'
 #'@param formula a linear regression model formula of the format y ~ x. For multivariate linear models, covariates may be added as y ~ x1 + x2 + ...
 #'@param data an input dataframe
+#'@param weights a vector of weights
 #'@return a list of results from the linear regression model
 #'@examples
 #'lrmodel(mpg ~ wt, data = mtcars)
