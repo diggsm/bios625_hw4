@@ -44,26 +44,25 @@ all.equal(
 
 
 ```{r}
-result <- bench::mark(
-  lrmodel(mpg ~ wt, mtcars)$coefficients,
-  lm(mpg ~ wt, mtcars)$coefficients
-)
-result
-plot(result)
-
-result <- bench::mark(
-  lrmodel(mpg ~ wt, mtcars)$residuals,
-  lm(mpg ~ wt, mtcars)$residuals
-)
-result
-plot(result)
-
-result <- bench::mark(
-  lrmodel(mpg ~ wt, mtcars)$fitted.values,
-  lm(mpg ~ wt, mtcars)$fitted.values
-)
-result
-plot(result)
-
+# result <- bench::mark(
+#   lrmodel(mpg ~ wt, mtcars)$coefficients,
+#   lm(mpg ~ wt, mtcars)$coefficients
+# )
+# result
+# plot(result)
+# 
+# result <- bench::mark(
+#   lrmodel(mpg ~ wt, mtcars)$residuals,
+#   lm(mpg ~ wt, mtcars)$residuals
+# )
+# result
+# plot(result)
+# 
+# result <- bench::mark(
+#   lrmodel(mpg ~ wt, mtcars)$fitted.values,
+#   lm(mpg ~ wt, mtcars)$fitted.values
+# )
+# result
+# plot(result)
 ```
 

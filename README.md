@@ -19,8 +19,8 @@ You can install the development version of lrmodel from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("diggsm/bios625_hw4")
+# install.packages("remotes")
+remotes::install_github("diggsm/bios625_hw4")
 ```
 
 ## Example
