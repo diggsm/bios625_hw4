@@ -10,6 +10,8 @@ lrmodel(formula, data, weights = NULL)
 \item{formula}{a linear regression model formula of the format y ~ x. For multivariate linear models, covariates may be added as y ~ x1 + x2 + ...}
 
 \item{data}{an input dataframe}
+
+\item{weights}{a vector of weights}
 }
 \value{
 a list of results from the linear regression model
