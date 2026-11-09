@@ -1,1 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+
+importFrom("stats", "model.frame", "model.frame.default",
+                 "model.matrix.default", "model.response")
