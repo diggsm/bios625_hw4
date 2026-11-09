@@ -1,0 +1,69 @@
+---
+title: "tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(lrmodel)
+```
+
+
+In the vignette(s), include comparison(s) against the original R functions on 
+simulated or real datasets to demonstrate both the correctness (e.g., via 
+all.equal()) and the efficiency (e.g., via bench::mark()) of the implemented 
+functions. Your implementation is not required to outperform the original 
+functions.
+
+```{r}
+all.equal(
+  lrmodel(mpg ~ wt, mtcars)$coefficients, 
+  lm(mpg ~ wt, mtcars)$coefficients
+)
+
+all.equal(
+  lrmodel(mpg ~ wt, mtcars)$residuals,
+  lm(mpg ~ wt, mtcars)$residuals
+)
+
+all.equal(
+  lrmodel(mpg ~ wt, mtcars)$fitted.values,
+  lm(mpg ~ wt, mtcars)$fitted.values
+)
+```
+
+
+```{r}
+result <- bench::mark(
+  lrmodel(mpg ~ wt, mtcars)$coefficients,
+  lm(mpg ~ wt, mtcars)$coefficients
+)
+result
+plot(result)
+
+result <- bench::mark(
+  lrmodel(mpg ~ wt, mtcars)$residuals,
+  lm(mpg ~ wt, mtcars)$residuals
+)
+result
+plot(result)
+
+result <- bench::mark(
+  lrmodel(mpg ~ wt, mtcars)$fitted.values,
+  lm(mpg ~ wt, mtcars)$fitted.values
+)
+result
+plot(result)
+
+```
+
