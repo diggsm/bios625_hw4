@@ -23,42 +23,40 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/diggsm/bios625_hw4/graph/badge.svg)](https://app.codecov.io/gh/diggsm/bios625_hw4)
 <!-- badges: end -->
 
-The goal of lrmodel is to ...
+The lrmodel package was designed to re-implement the base R function `lm()` and generate results from a linear regression model. 
 
 ## Installation
 
 You can install the development version of lrmodel from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("diggsm/bios625_hw4")
+# install.packages("pak")
+pak::pak("diggsm/bios625_hw4")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+Below are example of how to use the `lrmodel` function to fit a simple linear regression model and explore the model results.
 
 ```{r}
 #| label: example
 library(lrmodel)
-## basic example code
+
+# Fitting a simple linear regression model
+model <- lrmodel(mpg ~ wt, data = mtcars)
+model$coefficients
+
+model$call
+
+summary(model$residuals)
+
+model$rank
 ```
 
-What is special about using `README.qmd` instead of just `README.md`? You can include R chunks like so:
 
 ```{r}
-#| label: cars
-summary(cars)
-```
-
-You'll still need to render `README.qmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r}
-#| label: pressure
+#| label: fitted.vals
 #| echo: false
-plot(pressure)
+plot(mtcars$wt, model$fitted.values)
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

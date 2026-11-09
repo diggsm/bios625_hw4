@@ -11,7 +11,8 @@
 coverage](https://codecov.io/gh/diggsm/bios625_hw4/graph/badge.svg)](https://app.codecov.io/gh/diggsm/bios625_hw4)
 <!-- badges: end -->
 
-The goal of lrmodel is to …
+The lrmodel package was designed to re-implement the base R function
+`lm()` and generate results from a linear regression model.
 
 ## Installation
 
@@ -19,39 +20,33 @@ You can install the development version of lrmodel from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("diggsm/bios625_hw4")
+# install.packages("pak")
+pak::pak("diggsm/bios625_hw4")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+Below are example of how to use the `lrmodel` function to fit a simple
+linear regression model and explore the model results.
 
 ``` r
 library(lrmodel)
-## basic example code
+
+# Fitting a simple linear regression model
+model <- lrmodel(mpg ~ wt, data = mtcars)
+model$coefficients
+#> (Intercept)          wt 
+#>   37.285126   -5.344472
+
+model$call
+#> lrmodel(formula = mpg ~ wt, data = mtcars)
+
+summary(model$residuals)
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#> -4.5432 -2.3647 -0.1252  0.0000  1.4096  6.8727
+
+model$rank
+#> [1] 2
 ```
 
-What is special about using `README.qmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.qmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" style="width:100.0%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+<img src="man/figures/README-fitted.vals-1.png" style="width:100.0%" />
