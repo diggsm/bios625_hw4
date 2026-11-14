@@ -14,7 +14,17 @@ lrmodel(formula, data, weights = NULL)
 \item{weights}{a vector of weights}
 }
 \value{
-a list of results from the linear regression model
+a list of results from the linear regression model, which includes:
+\itemize{
+\item Coefficient values
+\item Residual values
+\item Model fitted values
+\item Model rank
+\item Model weights
+\item Model residual dfs
+\item Model call
+\item Model dataframe
+}
 }
 \description{
 Generates results from a linear regression model
