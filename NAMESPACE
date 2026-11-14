@@ -4,3 +4,5 @@ importFrom("stats", "model.frame", "model.frame.default",
                  "model.matrix.default", "model.response")
 
 importFrom("bench", "mark")
+
+importFrom("ggplot2", "ggplot")
