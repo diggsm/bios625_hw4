@@ -1,15 +1,25 @@
-#'lrmodel
+#' lrmodel
 #'
-#'Generates results from a linear regression model
+#' Generates results from a linear regression model
 #'
-#'@param formula a linear regression model formula of the format y ~ x. For multivariate linear models, covariates may be added as y ~ x1 + x2 + ...
-#'@param data an input dataframe
-#'@param weights a vector of weights
-#'@return a list of results from the linear regression model
-#'@examples
-#'lrmodel(mpg ~ wt, data = mtcars)
-#'lrmodel(Sepal.Length ~ Petal.Width, data = iris)$coefficients
-#'@export
+#' @param formula a linear regression model formula of the format y ~ x. For multivariate linear models, covariates may be added as y ~ x1 + x2 + ...
+#' @param data an input dataframe
+#' @param weights a vector of weights
+#' @return a list of results from the linear regression model, which includes:
+#'
+#' - Coefficient values
+#' - Residual values
+#' - Model fitted values
+#' - Model rank
+#' - Model weights
+#' - Model residual dfs
+#' - Model call
+#' - Model dataframe
+#'
+#' @examples
+#' lrmodel(mpg ~ wt, data = mtcars)
+#' lrmodel(Sepal.Length ~ Petal.Width, data = iris)$coefficients
+#' @export
 
 lrmodel <- function(formula, data, weights = NULL) {
   # model covariate(s)
