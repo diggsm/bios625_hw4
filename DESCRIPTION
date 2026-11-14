@@ -24,4 +24,5 @@ Roxygen: list(markdown = TRUE)
 Imports: 
     bench,
     ggplot2, 
-    tidyr
+    tidyr,
+    ggbeeswarm
