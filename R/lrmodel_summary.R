@@ -41,9 +41,17 @@ lrmodel_summary <- function(model) {
   # p value
   p <- pt(abs(t), df = model$df.residual, lower.tail = F)*2
 
-  # Residual se and df (note any obs deleted due to missingness)
+  # Table of coefficients
+  coef_tbl <- cbind(
+    "Estimate" = est, "Std. Error" = se, "t value" = t, `Pr(>|t|)` = p
+  )
+
+  # Residual se and df
   res_se <- sqrt(res_var)
   res_df <- model$df.residual
+
+  # number of observations deleted due to missingness
+  n_obs_del <- model$n_obs_del
 
   # R-squared
   sse = sum((model$residuals)^2)
@@ -58,7 +66,7 @@ lrmodel_summary <- function(model) {
   f_df1 = n_param - 1
   p_f = pf(f, f_df1, res_df, lower.tail = F)
 
-  # Return results
+  # Formatted summary
   cat("Call:\n")
   print(call)
   cat("\n")
@@ -67,13 +75,24 @@ lrmodel_summary <- function(model) {
   cat("\n")
   cat("Coefficients:\n")
   print(
-    cbind(
-      "Estimate" = est, "Std. Error" = se, "t value" = t, `Pr(>|t|)` = p
-      )
+    coef_tbl
   )
   cat("\n")
   cat("Residual standard error:", res_se, "on", res_df, "degrees of freedom\n")
+  cat("(", n_obs_del, " observations deleted due to missingness)\n", sep = "")
   cat("Multiple R-squared:", rsq, ",  Adjusted R-squared:", adj_rsq, "\n")
   cat("F-statistic:", f, "on", f_df1, "and", res_df, "DF,", "p-value:", p_f)
 
+  # Store results in a list
+  summary_results <- list(
+    call = model$call,
+    residuals = model$residuals,
+    coefficients = coef_tbl,
+    sigma = res_se,
+    r.squared = rsq,
+    adj.r.squared = adj_rsq,
+    fstatistic = c("value" = f, "numdf" = f_df1, "dendf" = res_df)
+  )
+
+  invisible(summary_results)
 }
