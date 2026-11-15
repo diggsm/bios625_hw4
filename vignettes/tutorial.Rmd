@@ -54,7 +54,7 @@ all.equal(
 The efficiency of `lrmodel()` vs. the base R function `lm()` is demonstrated 
 below using `bench::mark()`.
 
-```{r, echo=F}
+```{r, include=F}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$coefficients,
   lm(mpg ~ wt, mtcars)$coefficients
@@ -66,7 +66,7 @@ result
 plot(result)
 ```
 
-```{r, echo=F}
+```{r, include=F}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$residuals,
   lm(mpg ~ wt, mtcars)$residuals
@@ -79,7 +79,7 @@ result
 plot(result)
 ```
 
-```{r, echo=F}
+```{r, include=F}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$fitted.values,
   lm(mpg ~ wt, mtcars)$fitted.values
