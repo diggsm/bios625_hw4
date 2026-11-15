@@ -24,6 +24,7 @@ a list of results from the linear regression model, which includes:
 \item Model residual dfs
 \item Model call
 \item Model dataframe
+\item The number of observations deleted due to missingness
 }
 }
 \description{
