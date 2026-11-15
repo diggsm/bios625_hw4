@@ -72,7 +72,7 @@ result
 plot(result)
 ```
 
-```{r, out.width="75%}
+```{r, out.width="75%"}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$fitted.values,
   lm(mpg ~ wt, mtcars)$fitted.values
