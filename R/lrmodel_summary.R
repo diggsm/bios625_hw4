@@ -27,7 +27,7 @@ lrmodel_summary <- function(model) {
   est <- model$coefficients
 
   # coefficient standard errors
-  covariates <- paste(colnames(model$model[-1]), sep = " + ")
+  covariates <- paste(colnames(model$model[-1]), collapse = " + ")
   x <- model.matrix(as.formula(paste("~", covariates)), data = model$model)
   n_param <- model$rank
   rss <- sum((model$model[, 1] - model$fitted.values)^2)
