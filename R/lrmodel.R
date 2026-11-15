@@ -27,12 +27,16 @@ lrmodel <- function(formula, data, weights = NULL) {
   # model outcome
   y <- model.response(model.frame(formula, data))
 
+  # model dataframe
+  model_df <- model.frame.default(formula, data)
+
   # model coefficients
   if (is.null(weights)) {
     coef <- solve(t(x) %*% x) %*% (t(x) %*% y)
-    # weights = NULL
   } else {
-    w = diag(weights)
+    # filter weights vector to rows with complete x and y observations
+    w_idx <- !rowSums(is.na(data[, all.vars(formula)]))
+    w <- diag(weights[w_idx])
     coef <- solve(t(x) %*% w %*% x) %*% (t(x) %*% w %*% y)
   }
 
@@ -47,9 +51,6 @@ lrmodel <- function(formula, data, weights = NULL) {
 
   # residual dfs
   resid_df <- nrow(x) - rank
-
-  # model dataframe
-  model_df <- model.frame.default(formula, data)
 
   # user call
   user_call = match.call()
