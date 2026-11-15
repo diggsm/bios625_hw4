@@ -28,10 +28,6 @@ test_that("lrmodel works", {
     lm(mpg ~ cyl + hp + wt + gear, mtcars)$rank
   )
   # weights
-  # expect_equal(
-  #   lrmodel(body_mass ~ species, data = penguins, weights = 1:nrow(penguins)),
-  #   lm(body_mass ~ species, data = penguins, weights = 1:nrow(penguins))
-  # )
   expect_equal(
     lrmodel(mpg ~ wt + hp, data = mtcars, weights = c(1:32))$weights,
     lm(mpg ~ wt + hp, data = mtcars, weights = c(1:32))$ weights
