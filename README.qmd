@@ -39,7 +39,7 @@ pak::pak("diggsm/bios625_hw4")
 
 ## Usage
 
-Below are example of how to use the `lrmodel` package to fit a simple linear 
+Below are examples of how to use the `lrmodel` package to fit a simple linear 
 regression model and explore the results.
 
 ```{r}

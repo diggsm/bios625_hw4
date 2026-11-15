@@ -28,7 +28,7 @@ pak::pak("diggsm/bios625_hw4")
 
 ## Usage
 
-Below are example of how to use the `lrmodel` package to fit a simple
+Below are examples of how to use the `lrmodel` package to fit a simple
 linear regression model and explore the results.
 
 ``` r
@@ -36,6 +36,12 @@ library(lrmodel)
 
 # Fitting a simple linear regression model
 model <- lrmodel(mpg ~ wt, data = mtcars)
+#> Call:
+#> lrmodel(formula = mpg ~ wt, data = mtcars)
+#> 
+#> Coefficients:
+#> (Intercept)          wt 
+#>   37.285126   -5.344472
 model$coefficients
 #> (Intercept)          wt 
 #>   37.285126   -5.344472
@@ -65,6 +71,7 @@ lrmodel_summary(model)
 #> wt          -5.344472   0.559101 -9.559044 1.293959e-10
 #> 
 #> Residual standard error: 3.045882 on 30 degrees of freedom
+#> (0 observations deleted due to missingness)
 #> Multiple R-squared: 0.7528328 ,  Adjusted R-squared: 0.7445939 
 #> F-statistic: 91.37533 on 1 and 30 DF, p-value: 1.293959e-10
 ```
