@@ -1,7 +1,8 @@
 exportPattern("^[[:alpha:]]+")
 
 importFrom("stats", "model.frame", "model.frame.default",
-                 "model.matrix.default", "model.response")
+           "model.matrix.default", "model.response", "as.formula",
+           "model.matrix", "pf", "pt")
 
 importFrom("bench", "mark")
 
