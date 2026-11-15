@@ -12,7 +12,9 @@ coverage](https://codecov.io/gh/diggsm/bios625_hw4/graph/badge.svg)](https://app
 <!-- badges: end -->
 
 The `lrmodel` package was designed to re-implement the base R function
-`lm()` and generate results from a linear regression model.
+`lm()`. The package contains two core functions functions: `lrmodel()`
+generate results from a linear regression model, and `lrmodel_summary()`
+produces a formatted summary of the results.
 
 ## Installation
 
@@ -26,7 +28,7 @@ pak::pak("diggsm/bios625_hw4")
 
 ## Usage
 
-Below are example of how to use the `lrmodel` function to fit a simple
+Below are example of how to use the `lrmodel` package to fit a simple
 linear regression model and explore the results.
 
 ``` r
@@ -47,6 +49,24 @@ summary(model$residuals)
 
 model$rank
 #> [1] 2
+
+# View a formatted summary of the linear regression model results
+lrmodel_summary(model)
+#> Call:
+#> lrmodel(formula = mpg ~ wt, data = mtcars)
+#> 
+#> Residuals:
+#>       Min.    1st Qu.     Median    3rd Qu.       Max. 
+#> -4.5431513 -2.3647089 -0.1251956  1.4095613  6.8727113 
+#> 
+#> Coefficients:
+#>              Estimate Std. Error   t value     Pr(>|t|)
+#> (Intercept) 37.285126   1.877627 19.857575 8.241799e-19
+#> wt          -5.344472   0.559101 -9.559044 1.293959e-10
+#> 
+#> Residual standard error: 3.045882 on 30 degrees of freedom
+#> Multiple R-squared: 0.7528328 ,  Adjusted R-squared: 0.7445939 
+#> F-statistic: 91.37533 on 1 and 30 DF, p-value: 1.293959e-10
 ```
 
 ``` r

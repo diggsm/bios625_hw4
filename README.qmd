@@ -23,7 +23,10 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/diggsm/bios625_hw4/graph/badge.svg)](https://app.codecov.io/gh/diggsm/bios625_hw4)
 <!-- badges: end -->
 
-The `lrmodel` package was designed to re-implement the base R function `lm()` and generate results from a linear regression model. 
+The `lrmodel` package was designed to re-implement the base R function `lm()`. 
+The package contains two core functions functions: `lrmodel()` generate results 
+from a linear regression model, and `lrmodel_summary()` produces a formatted 
+summary of the results.
 
 ## Installation
 
@@ -36,7 +39,7 @@ pak::pak("diggsm/bios625_hw4")
 
 ## Usage
 
-Below are example of how to use the `lrmodel` function to fit a simple linear 
+Below are example of how to use the `lrmodel` package to fit a simple linear 
 regression model and explore the results.
 
 ```{r}
@@ -52,6 +55,9 @@ model$call
 summary(model$residuals)
 
 model$rank
+
+# View a formatted summary of the linear regression model results
+lrmodel_summary(model)
 ```
 
 
