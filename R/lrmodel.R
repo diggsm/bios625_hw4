@@ -15,6 +15,7 @@
 #' - Model residual dfs
 #' - Model call
 #' - Model dataframe
+#' - The number of observations deleted due to missingness
 #'
 #' @examples
 #' lrmodel(mpg ~ wt, data = mtcars)
@@ -55,6 +56,16 @@ lrmodel <- function(formula, data, weights = NULL) {
   # user call
   user_call = match.call()
 
+  # number of observations deleted due to missingness
+  n_obs_del <- nrow(data) - nrow(model_df)
+
+  # print a short, formatted summary
+  cat("Call:\n")
+  print(user_call)
+  cat("\n")
+  cat("Coefficients:\n")
+  print(coef[, 1])
+
   # store all results in list
   lrmodel_results <- list(
     coefficients = t(coef)[1, ],
@@ -64,9 +75,10 @@ lrmodel <- function(formula, data, weights = NULL) {
     weights = weights,
     df.residual = resid_df,
     call = user_call,
-    model = model_df
+    model = model_df,
+    n_obs_del = n_obs_del
   )
 
-  return(lrmodel_results)
+  invisible(lrmodel_results)
 
 }
