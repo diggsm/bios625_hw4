@@ -15,7 +15,9 @@ The `lrmodel` package was designed to re-implement the base R functions
 `lm()` and `summary()` for linear regression model objects. The package
 contains two core functions functions: `lrmodel()` generate results from
 a linear regression model, and `lrmodel_summary()` produces a formatted
-summary of the results.
+summary of the results. Custom S3 classes and print methods are used to
+mimic the behavior of the base R functions, which return both list
+objects and printed summaries of the model results.
 
 ## Installation
 
@@ -37,12 +39,6 @@ library(lrmodel)
 
 # Fitting a simple linear regression model
 model <- lrmodel(mpg ~ wt, data = mtcars)
-#> Call:
-#> lrmodel(formula = mpg ~ wt, data = mtcars)
-#> 
-#> Coefficients:
-#> (Intercept)          wt 
-#>   37.285126   -5.344472
 model$coefficients
 #> (Intercept)          wt 
 #>   37.285126   -5.344472
@@ -67,34 +63,59 @@ lrmodel_summary(model)
 #> -4.5431513 -2.3647089 -0.1251956  1.4095613  6.8727113 
 #> 
 #> Coefficients:
-#>              Estimate Std. Error   t value     Pr(>|t|)
-#> (Intercept) 37.285126   1.877627 19.857575 8.241799e-19
-#> wt          -5.344472   0.559101 -9.559044 1.293959e-10
+#>              Estimate Std. Error   t value     Pr(>|t|)    
+#> (Intercept) 37.285126   1.877627 19.857575 8.241799e-19 ***
+#> wt          -5.344472   0.559101 -9.559044 1.293959e-10 ***
+#> ---
+#> Signif. codes: 0 '***', 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> Residual standard error: 3.045882 on 30 degrees of freedom
-#> (0 observations deleted due to missingness)
-#> Multiple R-squared: 0.7528328 ,  Adjusted R-squared: 0.7445939 
+#> Multiple R-squared: 0.7528328 , Adjusted R-squared: 0.7445939 
 #> F-statistic: 91.37533 on 1 and 30 DF, p-value: 1.293959e-10
+
+lrmodel_summary(model)$cov.unscaled
+#>             (Intercept)          wt
+#> (Intercept)   0.3800079 -0.10840248
+#> wt           -0.1084025  0.03369414
+
+lrmodel_summary(model)$r.squared
+#> [1] 0.7528328
+
+lrmodel_summary(model)$fstatistic
+#>    value    numdf    dendf 
+#> 91.37533  1.00000 30.00000
 ```
 
 ``` r
 # Plotting the fitted values
 plot(
-  x = mtcars$mpg, y = model$fitted.values,
-  xlab = "Miles per Gallon (mtcars)",
-  ylab = "Miles per Gallon (lrmodel)"
+  x = model$model$wt, y = model$fitted.values,
+  xlab = "Weight (1000 lbs)",
+  ylab = "Fitted Values"
   )
-abline(a = 0, b = 1, col = "red")
 ```
 
 <img src="man/figures/README-fitted.vals-1.png" style="width:100.0%" />
 
 ``` r
+# Plotting the regression line
+plot(
+  x = mtcars$wt, y = mtcars$mpg,
+  xlab = "Weight (1000 lbs)",
+  ylab = "Miles per Gallon"
+  )
+abline(a = model$coefficients["(Intercept)"], b = model$coefficients["wt"], col = "red")
+```
+
+<img src="man/figures/README-regression.line-1.png"
+style="width:100.0%" />
+
+``` r
 # Plotting the residuals
 plot(
-  x = mtcars$wt,
+  x = model$fitted.values,
   y = model$residuals,
-  xlab = "Weight (1000 lbs)",
+  xlab = "Fitted Values",
   ylab = "Residuals"
 )
 abline(a = 0, b = 0, lty = 2)

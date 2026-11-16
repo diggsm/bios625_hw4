@@ -26,9 +26,14 @@ a printed summary of the linear regression model results and a list object which
 }
 }
 \description{
-Summarizes results from a linear regression model
+Summarizes results from a lrmodel linear regression model object
 }
 \examples{
 model1 <- lrmodel(mpg ~ wt, data = mtcars)
 lrmodel_summary(model1)
+lrmodel_summary(model1)$terms
+model2 <- lrmodel(body_mass ~ bill_len + flipper_len + island + sex, data = penguins)
+lrmodel_summary(model2)
+lrmodel_summary(model2)$coefficients
+lrmodel_summary(model2)$cov.unscaled
 }

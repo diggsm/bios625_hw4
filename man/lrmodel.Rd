@@ -34,5 +34,9 @@ Generates results from a linear regression model
 }
 \examples{
 lrmodel(mpg ~ wt, data = mtcars)
+lrmodel(body_mass ~ species + bill_len + sex, data = penguins)$terms
 lrmodel(Sepal.Length ~ Petal.Width, data = iris)$coefficients
+plot(lrmodel(Volume ~ Girth + Height, data = trees)$residuals)
+lrmodel(Volume ~ 1, data = trees)$model
+lrmodel(body_mass ~ flipper_len + bill_len, data = penguins)$n_obs_del
 }

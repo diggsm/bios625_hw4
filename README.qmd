@@ -27,7 +27,9 @@ The `lrmodel` package was designed to re-implement the base R functions `lm()`
 and `summary()` for linear regression model objects. 
 The package contains two core functions functions: `lrmodel()` generate results 
 from a linear regression model, and `lrmodel_summary()` produces a formatted 
-summary of the results.
+summary of the results. Custom S3 classes and print methods are used to mimic 
+the behavior of the base R functions, which return both list objects and printed 
+summaries of the model results.
 
 ## Installation
 
@@ -59,6 +61,12 @@ model$rank
 
 # View a formatted summary of the linear regression model results
 lrmodel_summary(model)
+
+lrmodel_summary(model)$cov.unscaled
+
+lrmodel_summary(model)$r.squared
+
+lrmodel_summary(model)$fstatistic
 ```
 
 
@@ -66,20 +74,30 @@ lrmodel_summary(model)
 #| label: fitted.vals
 # Plotting the fitted values
 plot(
-  x = mtcars$mpg, y = model$fitted.values,
-  xlab = "Miles per Gallon (mtcars)",
-  ylab = "Miles per Gallon (lrmodel)"
+  x = model$model$wt, y = model$fitted.values,
+  xlab = "Weight (1000 lbs)",
+  ylab = "Fitted Values"
   )
-abline(a = 0, b = 1, col = "red")
+```
+
+```{r}
+#| label: regression.line
+# Plotting the regression line
+plot(
+  x = mtcars$wt, y = mtcars$mpg,
+  xlab = "Weight (1000 lbs)",
+  ylab = "Miles per Gallon"
+  )
+abline(a = model$coefficients["(Intercept)"], b = model$coefficients["wt"], col = "red")
 ```
 
 ```{r}
 #| label: residuals
 # Plotting the residuals
 plot(
-  x = mtcars$wt,
+  x = model$fitted.values,
   y = model$residuals,
-  xlab = "Weight (1000 lbs)",
+  xlab = "Fitted Values",
   ylab = "Residuals"
 )
 abline(a = 0, b = 0, lty = 2)
