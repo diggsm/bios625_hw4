@@ -7,3 +7,7 @@ importFrom("stats", "model.frame", "model.frame.default",
 importFrom("bench", "mark")
 
 importFrom("ggplot2", "ggplot")
+
+S3method(print, lrmodel)
+
+S3method(print, lrmodel_summary)

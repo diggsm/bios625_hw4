@@ -11,10 +11,11 @@
 coverage](https://codecov.io/gh/diggsm/bios625_hw4/graph/badge.svg)](https://app.codecov.io/gh/diggsm/bios625_hw4)
 <!-- badges: end -->
 
-The `lrmodel` package was designed to re-implement the base R function
-`lm()`. The package contains two core functions functions: `lrmodel()`
-generate results from a linear regression model, and `lrmodel_summary()`
-produces a formatted summary of the results.
+The `lrmodel` package was designed to re-implement the base R functions
+`lm()` and `summary()` for linear regression model objects. The package
+contains two core functions functions: `lrmodel()` generate results from
+a linear regression model, and `lrmodel_summary()` produces a formatted
+summary of the results.
 
 ## Installation
 

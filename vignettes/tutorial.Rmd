@@ -9,12 +9,14 @@ vignette: >
 
 ## Overview
 
-The `lrmodel` package was designed to re-implement the base R function `lm()` 
-and generate results from a linear regression model. This vignettes demonstrates 
-how to use the package's two core functions, `lrmodel()` and 
+The `lrmodel` package was designed to re-implement the base R functions `lm()` 
+and `summary()` for linear regression models. The functions in this package
+generate and summarize results from a linear regression model. This vignette 
+demonstrates how to use the package's two core functions, `lrmodel()` and  
 `lrmodel_summary()`, to fit a linear regression model and explore the results. 
 It also includes a comparison of the correctness and efficiency of `lrmodel()` 
-vs. the base R function `lm()` using `all.equal()` and `bench::mark()`.
+and `lrmodel_summary()` vs. the base R functions `lm()` and `summary()` using 
+`all.equal()` and `bench::mark()`.
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -29,8 +31,9 @@ library(lrmodel)
 
 ## Correctness
 
-The correctness of the `lrmodel()` function is demonstrated below by comparing
-the output of `lrmodel()` to the base R function `lm()` using `all.equal()`.
+The correctness of the `lrmodel()` and `lrmodel_summary()` functions are 
+demonstrated below by comparing the output of each function to the base R 
+functions `lm()` and `summary()` using `all.equal()`.
 
 ```{r}
 all.equal(
@@ -47,14 +50,29 @@ all.equal(
   lrmodel(mpg ~ wt, mtcars)$fitted.values,
   lm(mpg ~ wt, mtcars)$fitted.values
 )
+
+all.equal(
+  lrmodel_summary(lrmodel(mpg ~ wt, mtcars))$residuals,
+  summary(lm(mpg ~ wt, mtcars))$residuals
+)
+
+all.equal(
+  lrmodel_summary(lrmodel(mpg ~ wt, mtcars))$sigma,
+  summary(lm(mpg ~ wt, mtcars))$sigma
+)
+
+all.equal(
+  lrmodel_summary(lrmodel(mpg ~ wt, mtcars))$r.squared,
+  summary(lm(mpg ~ wt, mtcars))$r.squared
+)
 ```
 
 ## Efficiency
 
-The efficiency of `lrmodel()` vs. the base R function `lm()` is demonstrated 
-below using `bench::mark()`.
+The efficiency of `lrmodel()` and `lrmodel_summary()` vs. the base R functions
+is demonstrated below using `bench::mark()`.
 
-```{r, results='hide'}
+```{r}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$coefficients,
   lm(mpg ~ wt, mtcars)$coefficients
@@ -66,20 +84,19 @@ result
 plot(result)
 ```
 
-```{r, results='hide'}
+```{r}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$residuals,
   lm(mpg ~ wt, mtcars)$residuals
 )
 ```
 
-
 ```{r, fig.width=7, fig.height=5, out.width="100%"}
 result
 plot(result)
 ```
 
-```{r, results='hide'}
+```{r}
 result <- bench::mark(
   lrmodel(mpg ~ wt, mtcars)$fitted.values,
   lm(mpg ~ wt, mtcars)$fitted.values
@@ -91,3 +108,26 @@ result
 plot(result)
 ```
 
+```{r}
+result <- bench::mark(
+  lrmodel_summary(lrmodel(mpg ~ wt, mtcars))$residuals,
+  summary(lm(mpg ~ wt, mtcars))$residuals
+)
+```
+
+```{r, fig.width=7, fig.height=5, out.width="100%"}
+result
+plot(result)
+```
+
+```{r}
+result <- bench::mark(
+  lrmodel_summary(lrmodel(mpg ~ wt, mtcars))$adj.r.squared,
+  summary(lm(mpg ~ wt, mtcars))$adj.r.squared
+)
+```
+
+```{r, fig.width=7, fig.height=5, out.width="100%"}
+result
+plot(result)
+```
