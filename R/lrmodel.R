@@ -28,6 +28,23 @@ lrmodel <- function(formula, data, weights = NULL) {
   # Model outcome
   y <- model.response(model.frame(formula, data))
 
+  # Check for perfect collinearity among covariate(s)
+  if(ncol(x) > 2) {
+    cov_mat <- cor(x[, -1], use = "complete.obs")
+    diag(cov_mat) <- NA
+    is.collinear <- any(cov_mat == 1, na.rm = T)
+  }
+
+  if(is.collinear) {
+    stop(
+      paste(
+        "At least 2 of the covariates supplied are perfectly collinear.",
+        "Please remove one of the collinear covariates before re-running",
+        "the model."
+      )
+    )
+  }
+
   # Model dataframe
   model <- model.frame.default(formula, data)
 
