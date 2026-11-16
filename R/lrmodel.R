@@ -57,8 +57,11 @@ lrmodel <- function(formula, data, weights = NULL) {
   # Residual degrees of freedom
   df.residual <- nrow(x) - rank
 
-  # User call
+  # Model call
   call <- match.call()
+
+  # Model formula
+  terms = strsplit(as.character(call), split = c("formula =", ","))[[2]]
 
   # Number of observations deleted due to missingness
   n_obs_del <- nrow(data) - nrow(model)
@@ -72,6 +75,7 @@ lrmodel <- function(formula, data, weights = NULL) {
     weights = weights,
     df.residual = df.residual,
     call = call,
+    terms = terms,
     model = model,
     n_obs_del = n_obs_del
   )

@@ -20,6 +20,9 @@ lrmodel_summary <- function(model) {
   # Model call
   call <- model$call
 
+  # Model formula
+  terms = strsplit(as.character(model$call), split = c("formula =", ","))[[2]]
+
   # Model residuals
   residuals <- model$residuals
   res_summary <- summary(residuals)[-4]
@@ -35,6 +38,9 @@ lrmodel_summary <- function(model) {
   n <- nrow(model$model)
   res_var <- rss/(n - n_param)
   se <- sqrt(res_var*diag(solve(t(x)%*%x)))
+
+  # Unscaled covariance matrix
+  cov.unscaled = solve(t(x)%*%x)
 
   # t value
   t <- est/se
@@ -78,12 +84,14 @@ lrmodel_summary <- function(model) {
   # Store results in a list
   summary_results <- list(
     call = call,
+    terms = terms,
     residuals = residuals,
     coefficients = coefficients,
     sigma = sigma,
     r.squared = r.squared,
     adj.r.squared = adj.r.squared,
     fstatistic = c("value" = f, "numdf" = f_df1, "dendf" = res_df),
+    cov.unscaled = cov.unscaled,
     n_obs_del = model$n_obs_del,
     sig.codes = sig.codes
   )
