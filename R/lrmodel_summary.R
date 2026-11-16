@@ -42,9 +42,20 @@ lrmodel_summary <- function(model) {
   # p value
   p <- pt(abs(t), df = model$df.residual, lower.tail = F)*2
 
+  # Significance codes
+  sig.codes <- rep(NA, n_param)
+  sig.codes[p > 0.1 & p <= 1] = " "
+  sig.codes[p > 0.05 & p <= 0.1] = "."
+  sig.codes[p > 0.01 & p <= 0.05] = "*"
+  sig.codes[p > 0.001 & p <= 0.01] = "**"
+  sig.codes[p <= 0.001] = "***"
+
   # Table of coefficients
   coefficients <- cbind(
-    "Estimate" = est, "Std. Error" = se, "t value" = t, `Pr(>|t|)` = p
+    "Estimate" = est,
+    "Std. Error" = se,
+    "t value" = t,
+    "Pr(>|t|)" = p
   )
 
   # Residual se (sigma) and df
@@ -73,7 +84,8 @@ lrmodel_summary <- function(model) {
     r.squared = r.squared,
     adj.r.squared = adj.r.squared,
     fstatistic = c("value" = f, "numdf" = f_df1, "dendf" = res_df),
-    n_obs_del = model$n_obs_del
+    n_obs_del = model$n_obs_del,
+    sig.codes = sig.codes
   )
 
   class(summary_results) <- "lrmodel_summary"
@@ -100,11 +112,10 @@ print.lrmodel_summary <- function(x, ...) {
   cat("\nResiduals:\n")
   print(summary(x$residuals)[-4])
   cat("\nCoefficients:\n")
-  print(x$coefficients)
+  print(data.frame(x$coefficients, " " = x$sig.codes, check.names = F))
+  cat("---\nSignif. codes: 0 '***', 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n")
   cat("\nResidual standard error:", x$sigma, "on", x$fstatistic["dendf"], "degrees of freedom\n")
-  if (x$n_obs_del != 0) {
-    cat("(", x$n_obs_del, " observations deleted due to missingness)\n", sep = "")
-  }
+  if (x$n_obs_del != 0) {cat("(", x$n_obs_del, " observations deleted due to missingness)\n", sep = "")}
   cat("Multiple R-squared:", x$r.squared,", Adjusted R-squared:", x$adj.r.squared, "\n")
   cat("F-statistic:", x$fstatistic[1], "on", x$fstatistic[2], "and", x$fstatistic[3], "DF,", "p-value:", pf(x$fstatistic[1], x$fstatistic[2], x$fstatistic[3], lower.tail = F))
   invisible(x)
