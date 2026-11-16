@@ -15,16 +15,18 @@ lrmodel(formula, data, weights = NULL)
 }
 \value{
 a list of results from the linear regression model, which includes:
-\itemize{
-\item Coefficient values
-\item Residual values
-\item Model fitted values
-\item Model rank
-\item Model weights
-\item Model residual dfs
-\item Model call
-\item Model dataframe
-\item The number of observations deleted due to missingness
+
+\describe{
+\item{coefficients}{Coefficient values}
+\item{residuals}{Residual values}
+\item{fitted.values}{Model fitted values}
+\item{rank}{Model rank}
+\item{weights}{Model weights}
+\item{df.residual}{Model residual degrees of freedom}
+\item{call}{Model call}
+\item{terms}{Model formula terms}
+\item{model}{Model dataframe}
+\item{n_obs_del}{Number of observations deleted due to missingness}
 }
 }
 \description{

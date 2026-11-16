@@ -7,15 +7,18 @@
 #' @param weights a vector of weights
 #' @return a list of results from the linear regression model, which includes:
 #'
-#' - Coefficient values
-#' - Residual values
-#' - Model fitted values
-#' - Model rank
-#' - Model weights
-#' - Model residual dfs
-#' - Model call
-#' - Model dataframe
-#' - The number of observations deleted due to missingness
+#' \describe{
+#'   \item{coefficients}{Coefficient values}
+#'   \item{residuals}{Residual values}
+#'   \item{fitted.values}{Model fitted values}
+#'   \item{rank}{Model rank}
+#'   \item{weights}{Model weights}
+#'   \item{df.residual}{Model residual degrees of freedom}
+#'   \item{call}{Model call}
+#'   \item{terms}{Model formula terms}
+#'   \item{model}{Model dataframe}
+#'   \item{n_obs_del}{Number of observations deleted due to missingness}
+#' }
 #'
 #' @examples
 #' lrmodel(mpg ~ wt, data = mtcars)
@@ -33,16 +36,16 @@ lrmodel <- function(formula, data, weights = NULL) {
     cov_mat <- cor(x[, -1], use = "complete.obs")
     diag(cov_mat) <- NA
     is.collinear <- any(cov_mat == 1, na.rm = T)
-  }
 
-  if(is.collinear) {
-    stop(
-      paste(
-        "At least 2 of the covariates supplied are perfectly collinear.",
-        "Please remove one of the collinear covariates before re-running",
-        "the model."
+    if(is.collinear) {
+      stop(
+        paste(
+          "At least 2 of the covariates supplied are perfectly collinear.",
+          "Please adjust the model covariates to avoid perfect collinearity",
+          "before re-running the model."
+        )
       )
-    )
+    }
   }
 
   # Model dataframe
@@ -103,6 +106,8 @@ lrmodel <- function(formula, data, weights = NULL) {
 
 }
 
+# nocov start
+
 #' print.lrmodel
 #'
 #' The print method for the lrmodel function. Prints a short formatted summary
@@ -123,3 +128,5 @@ print.lrmodel <- function(x, ...) {
   print(x$coefficients)
   invisible(x)
 }
+
+# nocov end
