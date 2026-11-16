@@ -21,7 +21,8 @@ lrmodel_summary <- function(model) {
   call <- model$call
 
   # Model residuals
-  res_summary <- summary(model$residuals)[-4]
+  residuals <- model$residuals
+  res_summary <- summary(residuals)[-4]
 
   # Model coefficients
   est <- model$coefficients
@@ -42,20 +43,20 @@ lrmodel_summary <- function(model) {
   p <- pt(abs(t), df = model$df.residual, lower.tail = F)*2
 
   # Table of coefficients
-  coef_tbl <- cbind(
+  coefficients <- cbind(
     "Estimate" = est, "Std. Error" = se, "t value" = t, `Pr(>|t|)` = p
   )
 
-  # Residual se and df
-  res_se <- sqrt(res_var)
+  # Residual se (sigma) and df
+  sigma <- sqrt(res_var)
   res_df <- model$df.residual
 
   # R-squared
-  sse <- sum((model$residuals)^2)
+  sse <- sum((residuals)^2)
   y <- model$model[, 1]
   sst <- sum((y - mean(y))^2)
-  rsq <- 1 - (sse/sst)
-  adj_rsq <- 1 - (1 - rsq)*((n - 1)/(n - n_param))
+  r.squared <- 1 - (sse/sst)
+  adj.r.squared <- 1 - (1 - r.squared)*((n - 1)/(n - n_param))
 
   # F-statistic
   ssr <- sum((model$fitted.values - mean(y))^2)
@@ -65,12 +66,12 @@ lrmodel_summary <- function(model) {
 
   # Store results in a list
   summary_results <- list(
-    call = model$call,
-    residuals = model$residuals,
-    coefficients = coef_tbl,
-    sigma = res_se,
-    r.squared = rsq,
-    adj.r.squared = adj_rsq,
+    call = call,
+    residuals = residuals,
+    coefficients = coefficients,
+    sigma = sigma,
+    r.squared = r.squared,
+    adj.r.squared = adj.r.squared,
     fstatistic = c("value" = f, "numdf" = f_df1, "dendf" = res_df),
     n_obs_del = model$n_obs_del
   )
@@ -93,44 +94,18 @@ lrmodel_summary <- function(model) {
 
 # Print method for lrmodel_summary()
 print.lrmodel_summary <- function(x, ...) {
-
-  # Summary of model residuals
-  res_summary <- summary(x$residuals)[-4]
-
-  # p-value for f-statistic
-  p_f <- pf(
-    x$fstatistic[1], x$fstatistic[2], x$fstatistic[3],
-    lower.tail = F
-  )
-
   # Formatted summary
   cat("Call:\n")
   print(x$call)
-  cat("\n")
-  cat("Residuals:\n")
-  print(res_summary)
-  cat("\n")
-  cat("Coefficients:\n")
+  cat("\nResiduals:\n")
+  print(summary(x$residuals)[-4])
+  cat("\nCoefficients:\n")
   print(x$coefficients)
-  cat("\n")
-  cat(
-    "Residual standard error:", x$sigma, "on",
-    x$fstatistic["dendf"], "degrees of freedom\n"
-  )
+  cat("\nResidual standard error:", x$sigma, "on", x$fstatistic["dendf"], "degrees of freedom\n")
   if (x$n_obs_del != 0) {
-    cat(
-      "(", x$n_obs_del, " observations deleted due to missingness)\n",
-      sep = ""
-    )
+    cat("(", x$n_obs_del, " observations deleted due to missingness)\n", sep = "")
   }
-  cat(
-    "Multiple R-squared:", x$r.squared,
-    ", Adjusted R-squared:", x$adj.r.squared, "\n"
-  )
-  cat(
-    "F-statistic:", x$fstatistic[1], "on", x$fstatistic[2], "and",
-    x$fstatistic[3], "DF,", "p-value:", p_f
-  )
-
+  cat("Multiple R-squared:", x$r.squared,", Adjusted R-squared:", x$adj.r.squared, "\n")
+  cat("F-statistic:", x$fstatistic[1], "on", x$fstatistic[2], "and", x$fstatistic[3], "DF,", "p-value:", pf(x$fstatistic[1], x$fstatistic[2], x$fstatistic[3], lower.tail = F))
   invisible(x)
 }

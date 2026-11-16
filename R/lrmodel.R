@@ -29,7 +29,7 @@ lrmodel <- function(formula, data, weights = NULL) {
   y <- model.response(model.frame(formula, data))
 
   # Model dataframe
-  model_df <- model.frame.default(formula, data)
+  model <- model.frame.default(formula, data)
 
   # Model coefficients
   if (is.null(weights)) {
@@ -41,34 +41,38 @@ lrmodel <- function(formula, data, weights = NULL) {
     coef <- solve(t(x) %*% w %*% x) %*% (t(x) %*% w %*% y)
   }
 
+  coefficients <- t(coef)[1, ]
+
   # Fitted values
   fitted_vals <- x %*% coef
+  fitted.values <- t(fitted_vals)[1, ]
 
   # Model rank
   rank <- nrow(coef)
 
   # Residuals
   resid <- y - fitted_vals
+  residuals <- t(resid)[1, ]
 
   # Residual degrees of freedom
-  resid_df <- nrow(x) - rank
+  df.residual <- nrow(x) - rank
 
   # User call
-  user_call <- match.call()
+  call <- match.call()
 
   # Number of observations deleted due to missingness
-  n_obs_del <- nrow(data) - nrow(model_df)
+  n_obs_del <- nrow(data) - nrow(model)
 
   # Store all results in list
   lrmodel_results <- list(
-    coefficients = t(coef)[1, ],
-    residuals = t(resid)[1, ],
-    fitted.values = t(fitted_vals)[1, ],
+    coefficients = coefficients,
+    residuals = residuals,
+    fitted.values = fitted.values,
     rank = rank,
     weights = weights,
-    df.residual = resid_df,
-    call = user_call,
-    model = model_df,
+    df.residual = df.residual,
+    call = call,
+    model = model,
     n_obs_del = n_obs_del
   )
 
@@ -94,9 +98,7 @@ print.lrmodel <- function(x, ...) {
   # Formatted summary
   cat("Call:\n")
   print(x$call)
-  cat("\n")
-  cat("Coefficients:\n")
+  cat("\nCoefficients:\n")
   print(x$coefficients)
-
   invisible(x)
 }
