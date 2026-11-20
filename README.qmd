@@ -25,19 +25,19 @@ knitr::opts_chunk$set(
 
 The `lrmodel` package was designed to re-implement the base R functions `lm()`
 and `summary()` for linear regression model objects. 
-The package contains two core functions functions: `lrmodel()` generate results 
+The package contains two core functions functions: `lrmodel()` generates results 
 from a linear regression model, and `lrmodel_summary()` produces a formatted 
 summary of the results. Custom S3 classes and print methods are used to mimic 
-the behavior of the base R functions, which return both list objects and printed 
+the behavior of the base R functions, which can return both list objects and printed 
 summaries of the model results.
 
 ## Installation
 
-You can install the development version of lrmodel from [GitHub](https://github.com/) with:
+You can install the `lrmodel` package from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("diggsm/bios625_hw4")
+# install.packages("remotes")
+remotes::install_github("diggsm/bios625_hw4", build_vignettes = TRUE)
 ```
 
 ## Usage
@@ -77,7 +77,7 @@ plot(
   x = model$model$wt, y = model$fitted.values,
   xlab = "Weight (1000 lbs)",
   ylab = "Fitted Values"
-  )
+)
 ```
 
 ```{r}
@@ -87,7 +87,7 @@ plot(
   x = mtcars$wt, y = mtcars$mpg,
   xlab = "Weight (1000 lbs)",
   ylab = "Miles per Gallon"
-  )
+)
 abline(a = model$coefficients["(Intercept)"], b = model$coefficients["wt"], col = "red")
 ```
 
